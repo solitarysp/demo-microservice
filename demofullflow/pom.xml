@@ -15,6 +15,7 @@
         <module>service-registry</module>
         <module>service-config</module>
         <module>service-gateway</module>
+        <module>service-auth</module>
     </modules>
 
     <properties>
