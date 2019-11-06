@@ -1,4 +1,4 @@
-package com.lethanh98.service.auth.entity;
+package com.lethanh98.service.auth.response.view;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
@@ -12,7 +12,7 @@ import lombok.Data;
  * <p>- en :
  */
 @Data
-public class LoginDTO {
+public class LoginModelView {
     @JsonProperty("access_token")
     private String accessToken;
     @JsonProperty("refresh_token")

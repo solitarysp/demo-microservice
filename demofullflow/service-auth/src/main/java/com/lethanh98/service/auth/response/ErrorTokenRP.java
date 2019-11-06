@@ -1,4 +1,6 @@
-package com.lethanh98.service.auth.entity;
+package com.lethanh98.service.auth.response;
+
+import com.lethanh98.service.auth.response.ResponseBase;
 
 /**
  * author lethanh9398 <p>

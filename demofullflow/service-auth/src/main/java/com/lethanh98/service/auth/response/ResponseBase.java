@@ -1,4 +1,4 @@
-package com.lethanh98.service.auth.entity;
+package com.lethanh98.service.auth.response;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.Data;

@@ -1,4 +1,4 @@
-package com.lethanh98.service.auth.entity;
+package com.lethanh98.service.auth.model;
 
 import lombok.Data;
 

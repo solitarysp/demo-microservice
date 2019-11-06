@@ -1,7 +1,7 @@
 package com.lethanh98.service.auth.config.jwt;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.lethanh98.service.auth.entity.ClaimsDTO;
+import com.lethanh98.service.auth.model.ClaimsDTO;
 import com.lethanh98.service.auth.exception.CustomException;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.JwtException;

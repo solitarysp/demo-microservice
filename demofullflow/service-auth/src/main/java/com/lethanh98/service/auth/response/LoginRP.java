@@ -1,4 +1,6 @@
-package com.lethanh98.service.auth.entity;
+package com.lethanh98.service.auth.response;
+
+import com.lethanh98.service.auth.response.view.LoginModelView;
 
 /**
  * author lethanh9398 <p>
@@ -8,7 +10,7 @@ package com.lethanh98.service.auth.entity;
  * <p>- vi :
  * <p>- en :
  */
-public class LoginRP extends ResponseBase<LoginDTO> {
+public class LoginRP extends ResponseBase<LoginModelView> {
     @Override
     public Integer getStatus() {
         return super.getStatus();
