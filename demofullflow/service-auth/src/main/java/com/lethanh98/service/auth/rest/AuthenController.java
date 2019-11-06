@@ -1,9 +1,9 @@
 package com.lethanh98.service.auth.rest;
 
-import com.lethanh98.service.auth.response.view.LoginModelView;
-import com.lethanh98.service.auth.response.LoginRP;
 import com.lethanh98.service.auth.request.LoginRQ;
+import com.lethanh98.service.auth.response.LoginRP;
 import com.lethanh98.service.auth.response.ResponseBase;
+import com.lethanh98.service.auth.response.view.LoginModelView;
 import com.lethanh98.service.auth.service.impl.AuthenAccountServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
@@ -38,6 +38,7 @@ public class AuthenController {
             loginModelView.setAccessToken(authenAccountServiceImpl.login(loginRQ.getUsername(), loginRQ.getPassword()));
             if (Objects.nonNull(loginModelView.getAccessToken())) {
                 loginModelView.setRefreshToken(authenAccountServiceImpl.createRefreshToken(loginRQ.getUsername()));
+                loginModelView.setTokenType("Bearer");
             }
             loginRP.setData(loginModelView);
         } catch (Exception e) {

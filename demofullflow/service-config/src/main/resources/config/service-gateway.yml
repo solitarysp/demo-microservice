@@ -1,5 +1,7 @@
 eureka:
   client:
+    register-with-eureka: true
+    fetch-registry: true
     service-url:
       default-zone: http://localhost:8761/eureka/
 ribbon:
@@ -7,17 +9,32 @@ ribbon:
 server:
   port: 8762
 zuul:
+  # setting các data không gửi lên từ gateway đến các service. Không nên set Authorization ở đây,
+  # và nếu không set sensitive-headers mà không gửi đc Authorization thì nên set default như thế này
+  sensitive-headers: Cookie,Set-Cookie
   host:
     connect-timeout-millis: 20000
     socket-timeout-millis: 30000
-  ignored-services: '*'
-routes:
-  gallery-service:
-    path: /gallery/**
-    service-id: gallery-service
+#  ignored-services: '*'
+  routes:
+    service-auth:
+      path: /authen/**
+      service-id: service-auth
+    service-image:
+      path: /image/**
+      service-id: service-image
   semaphore:
     max-semaphores: 10000
 management:
   endpoint:
     health:
       show-details: always
+hystrix:
+  command:
+    default:
+      execution:
+        isolation:
+          thread:
+            timeoutInMilliseconds: 60000
+        timeout:
+          enabled: false
