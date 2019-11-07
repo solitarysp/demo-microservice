@@ -1,0 +1,6 @@
+spring:
+    application:
+        name: service-gallery
+    cloud:
+        config:
+            uri: http://localhost:8888
