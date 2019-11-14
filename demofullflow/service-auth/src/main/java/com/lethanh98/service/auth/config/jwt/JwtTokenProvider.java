@@ -31,11 +31,11 @@ public class JwtTokenProvider {
     @Value("${security.jwt.token.secret-key:secret-key}")
     private String secretKey;
 
-    @Value("${security.jwt.token.expire:1000000}")
+    @Value("${security.jwt.token.expire:86400000}")
     private long expireToken; // 1h
 
 
-    @Value("${security.jwt.token.expire.refresh:1000000}")
+    @Value("${security.jwt.token.expire.refresh:86400000}")
     private long expireRefreshToken; // 1h
 
     private String tokenType = "Bearer";
