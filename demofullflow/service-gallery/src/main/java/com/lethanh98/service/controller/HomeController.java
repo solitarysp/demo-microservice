@@ -2,6 +2,8 @@ package com.lethanh98.service.controller;
 
 import com.lethanh98.service.entity.Gallery;
 import com.netflix.hystrix.contrib.javanica.annotation.HystrixCommand;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cloud.client.ServiceInstance;
 import org.springframework.cloud.client.loadbalancer.LoadBalancerClient;
@@ -21,6 +23,8 @@ import java.util.List;
 @RestController
 @RequestMapping("/")
 public class HomeController {
+    Logger logger = LoggerFactory.getLogger(this.getClass());
+
     @Autowired
     private RestTemplate restTemplate;
 
@@ -51,7 +55,6 @@ public class HomeController {
         headers.setContentType(MediaType.APPLICATION_JSON);
         headers.set("Authorization", servletRequest.getHeader("Authorization"));
         HttpEntity<String> entity = new HttpEntity<>(null, headers);
-
         List<Object> images = (List<Object>) restTemplate.exchange("http://service-image/images/", HttpMethod.GET, entity, Object.class).getBody();
         gallery.setImages(images);
         return gallery;
