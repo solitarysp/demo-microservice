@@ -22,6 +22,7 @@ public class MyUserDetails implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+        // có thể call database để check lấy data..etc..
         // hard coding the users. All passwords must be encoded.
         final List<AppUser> users = Arrays.asList(
                 new AppUser(1, "123", "123", "USER"),
