@@ -1,4 +1,4 @@
-package com.lethanh98.service;
+package com.lethanh98.service.gallery;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

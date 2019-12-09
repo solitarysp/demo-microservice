@@ -1,4 +1,4 @@
-package com.lethanh98.service.config;
+package com.lethanh98.service.gallery.config;
 
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;

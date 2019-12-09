@@ -1,4 +1,4 @@
-package com.lethanh98.service.entity;
+package com.lethanh98.service.gallery.entity;
 
 
 import java.util.List;

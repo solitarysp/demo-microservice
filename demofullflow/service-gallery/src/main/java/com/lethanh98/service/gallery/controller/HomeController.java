@@ -1,6 +1,6 @@
-package com.lethanh98.service.controller;
+package com.lethanh98.service.gallery.controller;
 
-import com.lethanh98.service.entity.Gallery;
+import com.lethanh98.service.gallery.entity.Gallery;
 import com.netflix.hystrix.contrib.javanica.annotation.HystrixCommand;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
