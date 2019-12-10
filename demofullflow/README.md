@@ -1,3 +1,5 @@
+- Bản Demo này config mỗi 1 service khi được request sẽ có 1 reqeust gọi đến service authe để xác thực, sử dụng kiểu này khi chúng ta devlop service ở các network khác nhau, các IP network là public được gọi nhau public.
+
 - Trong demo này, chúng ta sẽ có. <br>
     - Config là service gồm các config để tất cả server khác gọi để để lấy config
     - Registry là service Registry để cho các service discovery đăng ký đến, service này sẽ load config từ config service
@@ -6,5 +8,4 @@
     - gateway service sử dụng để điều hướng reqeust đến các service tương ứng
     - gallery và image là 2 service resouce, 2 service này khi đc gọi thì cũng đều gọi lên auth để xác thức.
     
-- Bản Demo này config mỗi 1 service sẽ có 1 reqeust gọi đến service đấy, nó đều sẽ call đến authe service để xác thực, sử dụng kiểu này khi chúng ta devlop service ở các network khác nhau, các IP network là public được gọi nhau public.
 
