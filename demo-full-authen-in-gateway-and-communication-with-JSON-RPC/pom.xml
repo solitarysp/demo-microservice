@@ -5,14 +5,14 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>lethanh98.com</groupId>
-    <artifactId>demo-microservice</artifactId>
+    <artifactId>demo-full-authen-in-gateway-and-communication-with-JSON-RPC</artifactId>
     <packaging>pom</packaging>
     <version>1.0-SNAPSHOT</version>
     <modules>
-        <module>demofullflow</module>
-        <module>demo-full-authen-in-gateway</module>
-        <module>demo-full-authen-in-gateway-and-communication-with-JSON-RPC</module>
+        <module>service-registry</module>
+        <module>service-config</module>
+        <module>service-authen</module>
+        <module>service-gateway</module>
     </modules>
-
 
 </project>
