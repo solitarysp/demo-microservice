@@ -13,6 +13,7 @@
         <module>service-config</module>
         <module>service-authen</module>
         <module>service-gateway</module>
+        <module>service-image</module>
     </modules>
 
 </project>
