@@ -79,8 +79,8 @@ public class SecurityConfigure extends WebSecurityConfigurerAdapter {
         http.csrf().disable().cors();
         // Entry points
         http.authorizeRequests()//
-                .antMatchers("/gallery").hasAuthority("ROLE_ADMIN")
-                .antMatchers("/image").hasAuthority("ROLE_ADMIN")
+                .antMatchers("/gallery/**").hasAuthority("ROLE_ADMIN")
+                .antMatchers("/image/**").hasAuthority("ROLE_ADMIN")
                 .antMatchers("/*").permitAll();
         http.apply(new JwtTokenFilterConfigurer(jwtTokenProvider, jwtTokenFilter));
 

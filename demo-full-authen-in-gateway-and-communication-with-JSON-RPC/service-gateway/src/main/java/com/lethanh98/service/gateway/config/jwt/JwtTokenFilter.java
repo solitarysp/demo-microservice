@@ -1,6 +1,8 @@
 package com.lethanh98.service.gateway.config.jwt;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.lethanh98.service.gateway.config.cachehttp.CachedBodyHttpServletReques;
+import com.lethanh98.service.gateway.entity.Request;
 import com.lethanh98.service.gateway.exception.CustomException;
 import com.lethanh98.service.gateway.response.ErrorTokenRP;
 import org.springframework.security.core.Authentication;
@@ -12,6 +14,7 @@ import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.util.Collections;
 import java.util.Objects;
@@ -28,11 +31,20 @@ public class JwtTokenFilter extends OncePerRequestFilter {
 
     @Override
     protected void doFilterInternal(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, FilterChain filterChain) throws ServletException, IOException {
-        String token = jwtTokenProvider.resolveToken(httpServletRequest);
+        // sử dụng CachedBodyHttpServletReques để có thể gọi lại  InputStream nhiều lần được
+        CachedBodyHttpServletReques cachedBodyHttpServletRequest =
+                new CachedBodyHttpServletReques(httpServletRequest);
         try {
-            if (token != null && Objects.nonNull(jwtTokenProvider.validateTokenReturnUserName(token))) {
-                Authentication auth = jwtTokenProvider.getAuthentication(token);
+
+            ByteArrayInputStream byteArrayInputStream = new ByteArrayInputStream(cachedBodyHttpServletRequest.getCachedBody());
+            Request token = new ObjectMapper().readValue(byteArrayInputStream , Request.class);
+
+            if (token != null && Objects.nonNull(token.getAuthentication()) && Objects.nonNull(jwtTokenProvider.validateTokenReturnUserName(token.getAuthentication()))) {
+                Authentication auth = jwtTokenProvider.getAuthentication(token.getAuthentication());
                 SecurityContextHolder.getContext().setAuthentication(auth);
+            }else {
+                SecurityContextHolder.getContext().setAuthentication(null);
+
             }
         } catch (CustomException ex) {
             //this is very important, since it guarantees the user is not authenticated at all
@@ -55,7 +67,7 @@ public class JwtTokenFilter extends OncePerRequestFilter {
             return;
         }
 
-        filterChain.doFilter(httpServletRequest, httpServletResponse);
+        filterChain.doFilter(cachedBodyHttpServletRequest, httpServletResponse);
 
     }
 

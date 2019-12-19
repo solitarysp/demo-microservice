@@ -36,6 +36,7 @@ public class AuthenServiceRpcImpl implements AuthenServiceRpc {
 
     @Override
     public ResponseBase login(LoginRQ loginRQ) {
+        System.out.println("dd");
         LoginRP loginRP = new LoginRP();
         LoginModelView loginModelView = new LoginModelView();
         try {
