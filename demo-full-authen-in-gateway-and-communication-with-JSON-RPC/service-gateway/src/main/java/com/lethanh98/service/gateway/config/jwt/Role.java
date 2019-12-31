@@ -1,5 +1,6 @@
 package com.lethanh98.service.gateway.config.jwt;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import org.springframework.security.core.GrantedAuthority;
 
 /**
@@ -10,10 +11,12 @@ import org.springframework.security.core.GrantedAuthority;
  * <p>- vi :
  * <p>- en :
  */
+@JsonIgnoreProperties(ignoreUnknown = true)
 public enum Role implements GrantedAuthority {
     ROLE_ADMIN("ROLE_ADMIN", 0)
     , ROLE_CLIENT("ROLE_CLIENT", 1)
     , ROLE_ANONYMOUS("ROLE_ANONYMOUS", 2)
+    , ROLE_USER("ROLE_USER", 3)
     ;
     private String authority;
     private Integer valueMagic;

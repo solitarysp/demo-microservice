@@ -12,15 +12,15 @@ import com.fasterxml.jackson.annotation.JsonProperty;
  * <p>- en :
  */
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class Request {
+public class Request extends BaseRequestRPC<Request> {
     @JsonProperty(required = false)
-    private String authentication;
+    private String token;
 
-    public String getAuthentication() {
-        return authentication;
+    public String getToken() {
+        return token;
     }
 
-    public void setAuthentication(String authentication) {
-        this.authentication = authentication;
+    public void setToken(String token) {
+        this.token = token;
     }
 }

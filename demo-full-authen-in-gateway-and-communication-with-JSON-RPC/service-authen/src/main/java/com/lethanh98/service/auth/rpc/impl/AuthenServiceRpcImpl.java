@@ -54,23 +54,35 @@ public class AuthenServiceRpcImpl implements AuthenServiceRpc {
         }
         return loginRP;
     }
-@Autowired
+
+    @Override
+    public String infoUsingApp(String token) {
+        info(token);
+        try {
+            return objectMapper.writeValueAsString(SecurityContextHolder.getContext().getAuthentication());
+        } catch (JsonProcessingException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    @Autowired
     ObjectMapper objectMapper;
     @Override
-    public String info(String token) {
+    public Authentication info(String token) {
         System.out.println("info");
         try {
             if (token != null && Objects.nonNull(jwtTokenProvider.validateTokenReturnUserName(token))) {
                 Authentication auth = jwtTokenProvider.getAuthentication(token);
                 SecurityContextHolder.getContext().setAuthentication(auth);
             }
-            return objectMapper.writeValueAsString(SecurityContextHolder.getContext().getAuthentication());
+            return SecurityContextHolder.getContext().getAuthentication();
         } catch (Exception e) {
-            try {
+          /*  try {
                 return objectMapper.writeValueAsString(SecurityContextHolder.getContext().getAuthentication());
             } catch (JsonProcessingException e1) {
                 e1.printStackTrace();
-            }
+            }*/
         }
         return null;
     }

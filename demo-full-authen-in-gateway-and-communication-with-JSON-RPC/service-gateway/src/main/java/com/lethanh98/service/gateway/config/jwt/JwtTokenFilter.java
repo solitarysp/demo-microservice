@@ -1,12 +1,15 @@
 package com.lethanh98.service.gateway.config.jwt;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.SerializationFeature;
+import com.lethanh98.service.gateway.config.UsernamePasswordAuthenticationTokenCustom;
 import com.lethanh98.service.gateway.config.cachehttp.CachedBodyHttpServletReques;
 import com.lethanh98.service.gateway.entity.Request;
 import com.lethanh98.service.gateway.exception.CustomException;
 import com.lethanh98.service.gateway.response.ErrorTokenRP;
 import com.lethanh98.service.gateway.rpc.AuthenServiceRpc;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
@@ -27,7 +30,8 @@ public class JwtTokenFilter extends OncePerRequestFilter {
     @Autowired
     AuthenServiceRpc authenServiceRpc;
     private JwtTokenProvider jwtTokenProvider;
-
+    @Autowired
+    ObjectMapper objectMapper;
     public JwtTokenFilter(JwtTokenProvider jwtTokenProvider) {
         this.jwtTokenProvider = jwtTokenProvider;
     }
@@ -38,13 +42,16 @@ public class JwtTokenFilter extends OncePerRequestFilter {
         CachedBodyHttpServletReques cachedBodyHttpServletRequest =
                 new CachedBodyHttpServletReques(httpServletRequest);
         try {
-
+            ObjectMapper mapper = new ObjectMapper()
+                    .findAndRegisterModules()
+                    .disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS);
             ByteArrayInputStream byteArrayInputStream = new ByteArrayInputStream(cachedBodyHttpServletRequest.getCachedBody());
             Request token = new ObjectMapper().readValue(byteArrayInputStream , Request.class);
 
-            if (token != null && Objects.nonNull(token.getAuthentication())) {
-                String authentication = authenServiceRpc.info(token.getAuthentication());
-                Authentication auth = jwtTokenProvider.getAuthentication(token.getAuthentication());
+            if (token != null && Objects.nonNull(token.getParams().getToken())) {
+                String authentication = authenServiceRpc.infoUsingApp(token.getParams().getToken());
+                UsernamePasswordAuthenticationTokenCustom usernamePasswordAuthenticationTokenCustom = mapper.readValue(authentication, UsernamePasswordAuthenticationTokenCustom.class);
+                Authentication auth = new UsernamePasswordAuthenticationToken(usernamePasswordAuthenticationTokenCustom.getPrincipal(), "", usernamePasswordAuthenticationTokenCustom.getPrincipal().getAuthorities());
                 SecurityContextHolder.getContext().setAuthentication(auth);
             }else {
                 SecurityContextHolder.getContext().setAuthentication(null);

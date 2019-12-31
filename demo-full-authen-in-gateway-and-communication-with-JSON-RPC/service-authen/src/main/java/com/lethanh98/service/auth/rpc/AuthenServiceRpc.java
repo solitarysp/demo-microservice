@@ -18,6 +18,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 @JsonRpcService("/authen")
 public interface AuthenServiceRpc {
     public ResponseBase login(@JsonRpcParam(value = "loginRQ") LoginRQ loginRQ);
-
-    public String info(@JsonRpcParam(value = "token") String token);
+    public String infoUsingApp(@JsonRpcParam(value = "token")String token);
+    public Authentication info(@JsonRpcParam(value = "token") String token);
 }

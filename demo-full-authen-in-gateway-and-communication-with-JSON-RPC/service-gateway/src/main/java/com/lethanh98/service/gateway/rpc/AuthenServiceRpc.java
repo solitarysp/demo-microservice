@@ -23,14 +23,15 @@ import java.util.HashMap;
  */
 public interface AuthenServiceRpc {
     public ResponseBase login(String loginRQ);
-    public String info(String token);
+    public String infoUsingApp(String token);
+    public Authentication info(String token);
 }
 
 @Configuration
 class AuthenServiceRpcConfig {
     @Bean
     public AuthenServiceRpc client() throws MalformedURLException {
-        String endpoint = "http://localhost:8762/authen/authen";
+        String endpoint = "http://localhost:9101/authen";
         return ProxyUtil.createClientProxy(getClass().getClassLoader(), AuthenServiceRpc.class, new JsonRpcHttpClient(new URL(endpoint), new HashMap<>()));
     }
 }
