@@ -5,6 +5,8 @@ import com.lethanh98.service.gateway.config.cachehttp.CachedBodyHttpServletReque
 import com.lethanh98.service.gateway.entity.Request;
 import com.lethanh98.service.gateway.exception.CustomException;
 import com.lethanh98.service.gateway.response.ErrorTokenRP;
+import com.lethanh98.service.gateway.rpc.AuthenServiceRpc;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
@@ -22,7 +24,8 @@ import java.util.Objects;
 // We should use OncePerRequestFilter since we are doing a database call, there is no point in doing this more than once
 @Component
 public class JwtTokenFilter extends OncePerRequestFilter {
-
+    @Autowired
+    AuthenServiceRpc authenServiceRpc;
     private JwtTokenProvider jwtTokenProvider;
 
     public JwtTokenFilter(JwtTokenProvider jwtTokenProvider) {
@@ -39,7 +42,8 @@ public class JwtTokenFilter extends OncePerRequestFilter {
             ByteArrayInputStream byteArrayInputStream = new ByteArrayInputStream(cachedBodyHttpServletRequest.getCachedBody());
             Request token = new ObjectMapper().readValue(byteArrayInputStream , Request.class);
 
-            if (token != null && Objects.nonNull(token.getAuthentication()) && Objects.nonNull(jwtTokenProvider.validateTokenReturnUserName(token.getAuthentication()))) {
+            if (token != null && Objects.nonNull(token.getAuthentication())) {
+                String authentication = authenServiceRpc.info(token.getAuthentication());
                 Authentication auth = jwtTokenProvider.getAuthentication(token.getAuthentication());
                 SecurityContextHolder.getContext().setAuthentication(auth);
             }else {

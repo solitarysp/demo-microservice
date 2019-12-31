@@ -1,5 +1,7 @@
 package com.lethanh98.service.auth.rpc.impl;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.googlecode.jsonrpc4j.spring.AutoJsonRpcServiceImpl;
 import com.lethanh98.service.auth.config.jwt.JwtTokenProvider;
 import com.lethanh98.service.auth.request.LoginRQ;
@@ -52,17 +54,24 @@ public class AuthenServiceRpcImpl implements AuthenServiceRpc {
         }
         return loginRP;
     }
-
+@Autowired
+    ObjectMapper objectMapper;
     @Override
-    public Authentication info(String token) {
+    public String info(String token) {
+        System.out.println("info");
         try {
             if (token != null && Objects.nonNull(jwtTokenProvider.validateTokenReturnUserName(token))) {
                 Authentication auth = jwtTokenProvider.getAuthentication(token);
                 SecurityContextHolder.getContext().setAuthentication(auth);
             }
-            return SecurityContextHolder.getContext().getAuthentication();
+            return objectMapper.writeValueAsString(SecurityContextHolder.getContext().getAuthentication());
         } catch (Exception e) {
-            return SecurityContextHolder.getContext().getAuthentication();
+            try {
+                return objectMapper.writeValueAsString(SecurityContextHolder.getContext().getAuthentication());
+            } catch (JsonProcessingException e1) {
+                e1.printStackTrace();
+            }
         }
+        return null;
     }
 }
